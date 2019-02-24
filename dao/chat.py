@@ -15,17 +15,40 @@ class ChatDAO:
                          [2, "Para donde vamos", "24-3-2019"],
                          [3, "DIMELO CONSUL", "25-4-2019"]]
 
-        # chat_id, chat_name
-        self.chat = [[1, "Maquinas"],
-                     [2, "Jangueadores"],
-                     [3, "Memes"]]
+        # chat_id, chat_name, admin_id
+        self.chat = [[1, "Maquinas", 3],
+                     [2, "Jangueadores", 2],
+                     [3, "Memes", 1]]
 
-        # cid, uid, pdate, ptime
-        self.participants = [[1, 1, "2018-1-15", "16:02:13"], [1, 4, "2018-1-15", "16:02:13"],
-                             [1, 5, "2018-1-17", "13:14:54"], [2, 3, "2018-1-10", "06:04:13"],
-                             [2, 2, "2018-1-10", "06:04:13"], [3, 6, "2018-1-20", "12:43:41"],
-                             [3, 2, "2018-1-20", "12:43:41"], [3, 3, "2018-1-20", "12:43:41"],
-                             [4, 4, "2018-1-25", "16:34:27"], [4, 2, "2018-1-25", "16:34:27"]]
+        # post_id, chat_id, message_id, location, owner_id
+        self.post = [[1, 3, 44, "c://localhost/photos/dog.jpeg", 2],
+                     [2 , 2, 12, "c://localhost/photos/cat.jpeg", 1],
+                     [3, 1, 25, "c://localhost/photos/cow.jpeg", 3]]
 
-    def getALLChat(self):
-        return self.chat[0:2]
+
+        # chat_id, user_id
+        self.participant = [[1, 1], [1, 2], [1, 3], [2, 1],
+                             [2, 3], [3, 1], [3, 2], [3, 3]]
+
+    def getAllChat(self):
+        return self.chat[0:3]
+
+    def getChatParticipant(self, chat_id):
+        if chat_id == 1:
+            return self.participant[0:3]
+        elif chat_id == 2:
+            return self.participant[3:5]
+        elif chat_id == 3:
+            return self.participant[5:8]
+        return []
+
+    def getChatPost(self, chat_id):
+        if chat_id == 1:
+            return self.post[2:3]
+        elif chat_id == 2:
+            return self.post[1:2]
+        elif chat_id == 3:
+            return self.post[0:1]
+        return []
+
+
