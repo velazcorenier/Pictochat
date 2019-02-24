@@ -1,4 +1,4 @@
-class UserDao:
+uclass UserDao:
     def getAllUser(self):
         users = []
         users.append({'id': 1, 'username': 'Renier', 'password': '3425252', 'person_id': '4', 'active': 'Y'})

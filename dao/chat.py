@@ -51,4 +51,14 @@ class ChatDAO:
             return self.post[0:1]
         return []
 
+    # Testing branch
+
+    # def getChatMessage(self, chat_id, chat_post):
+
+    # def getChatPhoto(self, chat_id, chat_post):
+
+    # def getChatHashtag(self, chat_id, chat_message):
+
+    # def getChatReply(self, chat_id, chat_message):
+
 
