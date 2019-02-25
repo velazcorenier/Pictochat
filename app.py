@@ -6,11 +6,14 @@ from handler.ContactList import ContactListHandler
 from handler.MessageHandler import MessageHandler
 from handler.PostHandler import PostHandler
 from handler.hashtagHandler import HashtagHandler
+from handler.mediaHandler import MediaHandler
 
 
 app = Flask(__name__)
 CORS(app)
 
+app.config['DEBUG'] = True # Debug Mode. Server is reloaded on any code change
+                           # and provides detailed error messages.
 
 @app.route('/')  # OK
 def home():
@@ -139,10 +142,15 @@ def getAllHashtags():
     if request.method == 'GET':
         return HashtagHandler().getAllHashtags()
 
-@app.route('/Pictochat/hashtags/<int:hashtag_id>', methods=['GET', 'POST'])
+@app.route('/Pictochat/hashtags/<int:hashtag_id>', methods=['GET'])
 def getHashtagById(hashtag_id):
     if request.method == 'GET':
         return HashtagHandler().getHashtagById(hashtag_id)
+
+@app.route('/Pictochat/hashtags/text/<int:hashtag_id>', methods=['GET'])
+def getHashtagText(hashtag_id):
+    if request.method == 'GET':
+        return HashtagHandler().getHashtagText(hashtag_id)
 
 # CRUDS
 @app.route('/Pictochat/hashtags/<string:hashtag_text>', methods=['POST'])
@@ -160,6 +168,42 @@ def deleteHashtag(hashtag_id):
     if request.method == 'DELETE':
         return HashtagHandler().deleteHashtag(hashtag_id)
 
+###### Media ######
+@app.route('/Pictochat/media', methods=['GET', 'POST'])
+def getAllMedia():
+    if request.method == 'GET':
+        return MediaHandler().getAllMedia()
+
+@app.route('/Pictochat/media/<int:media_id>', methods=['GET'])
+def getMediaById(media_id):
+    if request.method == 'GET':
+        return MediaHandler().getMediaById(media_id)
+
+@app.route('/Pictochat/media/type/<int:media_id>', methods=['GET'])
+def getMediaType(media_id):
+    if request.method == 'GET':
+        return MediaHandler().getMediaType(media_id)
+
+@app.route('/Pictochat/media/location/<int:media_id>', methods=['GET'])
+def getMediaLocation(media_id):
+    if request.method == 'GET':
+        return MediaHandler().getMediaLocation(media_id)
+
+# CRUDS
+@app.route('/Pictochat/media/<string:media_type>/<string:location>', methods=['POST'])
+def createMedia(media_type, location):
+    if request.method == 'POST':
+        return MediaHandler().createMedia(media_type, location)
+
+@app.route('/Pictochat/media/<int:media_id>/<string:media_type>/<string:location>', methods=['PUT'])
+def updateMedia(media_id, media_type, location):
+    if request.method == 'PUT':
+        return MediaHandler().updateMedia(media_id, media_type, location)
+
+@app.route('/Pictochat/media/<int:media_id>', methods=['DELETE'])
+def deleteMedia(media_id):
+    if request.method == 'DELETE':
+        return MediaHandler().deleteMedia(media_id)
 
 if __name__ == '__main__':
     app.run()

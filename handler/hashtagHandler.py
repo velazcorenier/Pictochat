@@ -16,7 +16,7 @@ class HashtagHandler:
 		results_list = []
 
 		for row in hashtags_list:
-			result = self.build_hasthag_dict(row)
+			result = self.build_hashtag_dict(row)
 			results_list.append(result)
 
 		return jsonify(Hashtags=results_list)
@@ -29,27 +29,23 @@ class HashtagHandler:
 		
 		result = []
 		result.append(hashtag)
-		print(hashtag)
 
 		hashtag = self.build_hashtag_dict(result[0])
 
 		return jsonify(Hashtag=hashtag)
 
 	def getHashtagText(self, hashtag_id):
-		hashtag = HashtagDAO().getHashtagById(hashtag_id)
+		hashtag_text = HashtagDAO().getHashtagText(hashtag_id)
 
-		if not hashtag:
+		if not hashtag_text:
 			return jsonify(Error="NOT FOUND"), 404
 		
-		result = []
-		result.append(hashtag)
-		print(hashtag)
+		result = {}
+		result['hashtag_text'] = hashtag_text
 
-		hashtag = self.build_hashtag_dict(result[0])
+		return jsonify(Hashtag_text=result)
 
-		return jsonify(Hashtag=hashtag)
-
-	def createHashtag(self, hash_text):
+	def createHashtag(self, hashtag_text):
 		return jsonify(CreateStatus="Created"), 201
 
 	def updateHashtag(self, hashtag_id, hashtag_text):
