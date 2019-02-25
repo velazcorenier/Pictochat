@@ -7,11 +7,10 @@ class PostHandler:
     def getPostById(self, postid):
         post = PostDAO().postById(postid)
         if not post:
-            return jsonify(Error="NOT FOUND"), 404
-        result = []
-        for p in post:
-            result.append(p)
-            return jsonify(Post=result)
+            return jsonify(Error="POST NOT FOUND"), 404
+
+        return jsonify(Post=post)
+
 
     def getAllPosts(self):
         posts = PostDAO().getAllPosts()
@@ -48,6 +47,22 @@ class PostHandler:
         for p in posts:
             result.append(p)
         return jsonify(PostsPerDay=result)
+
+    def getPostMessage(self, postid):
+        message = PostDAO().getPostMessage(postid)
+
+        if not message:
+            return jsonify(Error="Message NOT FOUND"), 404
+
+        return jsonify(MessageOfPost=message)
+
+    def getPostMedia(self, postid):
+        message = PostDAO().getPostMedia(postid)
+
+        if not message:
+            return jsonify(Error="Media NOT FOUND"), 404
+
+        return jsonify(MediaOfPost=message)
 
 #     CRUD'S
 

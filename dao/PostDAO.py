@@ -8,7 +8,7 @@ class PostDAO:
         # message_id, text, message_date
         self.messages = [[1, "Vamos a janguear", "23-2-2019"],
                          [2, "Para donde vamos", "24-3-2019"],
-                         [3, "DIMELO CONSUL", "25-4-2019"]]
+                         [3, "DIMELO CONSUL", "25-4-2019"],]
 
         # chat_id, chat_name, admin_id
         self.chat = [[1, "Maquinas", 3],
@@ -16,9 +16,9 @@ class PostDAO:
                      [3, "Memes", 1]]
 
         # post_id, chat_id, message_id, location, owner_id
-        self.post = [[1, 3, 44, "c://localhost/photos/dog.jpeg", 2],
-                     [2, 2, 12, "c://localhost/photos/cat.jpeg", 1],
-                     [3, 1, 25, "c://localhost/photos/cow.jpeg", 3]]
+        self.post = [[1, 3, "Mensaje 1", "c://localhost/photos/dog.jpeg", 2],
+                     [2, 2, "Mensaje 2", "c://localhost/photos/cat.jpeg", 1],
+                     [3, 1, "Mensaje 3", "c://localhost/photos/cow.jpeg", 3]]
 
 
 
@@ -28,15 +28,43 @@ class PostDAO:
         return posts
 
     def getAllPostsFromChatId(self, chatId):
-        result = self.post[0:1]
+        result = []
+        for r in self.post.__iter__():
+            if r[1] == chatId:
+                result.append(r)
+
         return result
 
     def postsFromUser(self, userId):
-        result = self.post
+        result = []
+        for r in self.post.__iter__():
+            if r[4] == userId:
+                result = r
+
         return result
 
     def postById(self, postId):
-        result = self.post[3]
+        result = []
+        for r in self.post.__iter__():
+            if r[0] == postId:
+                result = r
+
+        return result
+
+    def getPostMessage(self,postId):
+        result = []
+        for r in self.post.__iter__():
+            if r[0] == postId:
+                result = r[2]
+
+        return result
+
+    def getPostMedia(self, postId):
+        result = []
+        for r in self.post.__iter__():
+            if r[0] == postId:
+                result = r[3]
+
         return result
 
     def getPostsPerDay(self, day):

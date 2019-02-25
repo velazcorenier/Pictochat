@@ -34,18 +34,20 @@ class UserDao:
         return users
 
     def getUserById(self, uid):
-        user = {}
-        if uid < self.users.__len__():
-            user = self.users[uid]
+        result = []
+        for r in self.users.__iter__():
+            if r[0] == uid:
+                result = r
 
-        return user
-
-    def getAllUserChats(self, uid):
-        result = self.chat[0:2]
         return result
 
     def getUsername(self, uid):
-        return self.users[uid][3]
+        result = []
+        for r in self.users.__iter__():
+            if r[0] == uid:
+                result = r[3]
+
+        return result
 
     # CRUDS
 
@@ -58,11 +60,12 @@ class UserDao:
         return uid
 
     def update(self, uid):
-        user = {}
-        if uid < self.users.__len__():
-            user = self.users[uid]
+        result = []
+        for r in self.users.__iter__():
+            if r[0] == uid:
+                result = r
 
-        return user
+        return result
 
     def getCountByUserId(self):
 

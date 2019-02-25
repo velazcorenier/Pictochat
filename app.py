@@ -3,7 +3,6 @@ from flask_cors import CORS, cross_origin
 from handler.user import UserHandler
 from handler.Chat import ChatHandler
 from handler.ContactList import ContactListHandler
-from handler.MessageHandler import MessageHandler
 from handler.PostHandler import PostHandler
 from handler.hashtagHandler import HashtagHandler
 from handler.mediaHandler import MediaHandler
@@ -60,15 +59,15 @@ def getAllUserPosts(uid):
     if request.method == 'GET':
         return PostHandler().getPostsFromUser(uid)
 
-@app.route('/Pictochat/user/<int:uid>/chats', methods=['GET'])
-def getAllUserChats(uid):
-    if request.method == 'GET':
-        return UserHandler().getAllUserChats(uid)
+# @app.route('/Pictochat/user/<int:uid>/chats', methods=['GET'])
+# def getAllUserChats(uid):
+#     if request.method == 'GET':
+#         return UserHandler().getAllUserChats(uid)
 
 @app.route('/Pictochat/user/<int:uid>/username', methods=['GET'])
-def getUserUsername(uid):
+def getUsername(uid):
     if request.method == 'GET':
-        return UserHandler().getUserUsername(uid)
+        return UserHandler().getUsername(uid)
 
 ###################### Contacts ######################################
 
@@ -134,28 +133,33 @@ def deleteChat(chat_id):
         return ChatHandler().deleteChat(chat_id)
 
 
-############################################################
+######################### Post ###################################
 # TODO: Finish message REST
-@app.route('/Pictochat/messages', methods=['GET', 'POST'])
-def getAllMessages():
+@app.route('/Pictochat/posts', methods=['GET', 'POST'])
+def getAllPost():
     if request.method == 'GET':
-        return MessageHandler().getAllMessages()
+        return PostHandler().getAllPosts()
 
 
-@app.route('/Pictochat/message/<int:mid>', methods=['GET', 'POST'])
-def getMessageById(mid):
+@app.route('/Pictochat/post/<int:postid>', methods=['GET', 'POST'])
+def getPostById(postid):
     if request.method == 'GET':
-        return MessageHandler().getMessageById(mid)
+        return PostHandler().getPostById(postid)
 
 @app.route('/Pictochat/post/<int:pid>/message', methods=['GET'])
 def getPostMessage(pid):
     if request.method == 'GET':
-        return MessageHandler().getMessagePost(pid)
+        return PostHandler().getPostMessage(pid)
 
-@app.route('/Pictochat/user/<int:uid>/messages', methods=['GET'])
-def getMessagesByUserId(uid):
+@app.route('/Pictochat/post/<int:pid>/media', methods=['GET'])
+def getPostMedia(pid):
     if request.method == 'GET':
-        return MessageHandler().getMessagesByUserId(uid)
+        return PostHandler().getPostMedia(pid)
+
+@app.route('/Pictochat/user/<int:uid>/posts', methods=['GET'])
+def getPostByUserId(uid):
+    if request.method == 'GET':
+        return PostHandler().getPostsFromUser(uid)
 
 ###### Hashtags ######
 @app.route('/Pictochat/hashtags', methods=['GET', 'POST'])

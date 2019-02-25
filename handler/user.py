@@ -32,16 +32,16 @@ class UserHandler:
             user = self.build_user_dict(row)
             return jsonify(User=user)
 
-    def getAllUserChats(self, uid):
-        dao = UserDao()
-        row = dao.getAllUserChats(uid)
-        if not row:
-            return jsonify(Error="Not Found Chats for this user."), 404
-        else:
-            chats = self.build_user_dict(row)
-            return jsonify(Chats=chats)
+    # def getAllUserChats(self, uid):
+    #     dao = UserDao()
+    #     row = dao.getAllUserChats(uid)
+    #     if not row:
+    #         return jsonify(Error="Not Found Chats for this user."), 404
+    #     else:
+    #         chats = self.build_user_dict(row)
+    #         return jsonify(Chats=chats)
 
-    def getUserUsername(self, uid):
+    def getUsername(self, uid):
         username = UserDao().getUsername(uid)
 
         if not username:

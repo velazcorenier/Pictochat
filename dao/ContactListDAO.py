@@ -17,12 +17,14 @@ class ContactListDAO:
         return result
 
     def getContactsByUserId(self, uid):
-        users = []
-        if uid == 1:
-            users.append(self.users[0])
-            users.append(self.users[1])
+        result = []
+        for r in self.users.__iter__():
+            if r[0] == uid:
+                result.append(self.users[0])
+                result.append(self.users[1])
+                result.append(self.users[2])
 
-        return users
+        return result
 
     def insertContactToList(self, owner, uid):
 
