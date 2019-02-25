@@ -5,32 +5,25 @@ from dao.UserDAO import UserDao
 # from config.dbconfig import pg_config
 
 class ContactListDAO:
-    # def __init__(self):
-    #     connection_url = "dbname=%s user=%s password=%s host=%s port=%s" % (pg_config['dbname'], pg_config['user'], pg_config['password'], pg_config['host'], pg_config['port'])
-    #     self.conn = psycopg2.connect(connection_url)
+    def __init__(self):
+        # user_id, first_name, last_name, email, phone
+        self.users = [[1, "Renier", "Velazco", "renier.velazco@upr.edu", "787-247-4930"],
+                      [2, "Cristian", "Torres", "cristian.torres2@upr.edu", "787-218-2447"],
+                      [3, "Julian", "Cuevas", "julian.cuevas1@upr.edu", "7876074678"]]
 
+    # TODO: Implement
     def allContactLists(self):
-        # cursor = self.conn.cursor()
-        # query = query = 'select uid, username, count(*) from contactlist natural inner join "user" group by uid, username;'
-        # cursor.execute(query)
         result = []
-        # for row in cursor:
-        #     result.append(row)
-        # self.conn.close()
         return result
 
     def getContactsByUserId(self, uid):
         users = []
         if uid == 1:
-            users.append({'id': 1, 'username': 'Renier', 'password': '3425252', 'person_id': '4', 'active': 'Y'})
-        if uid == 2:
-            users.append({'id': 1, 'username': 'Renier', 'password': '3425252', 'person_id': '4', 'active': 'Y'})
-            users.append({'id': 2, 'username': 'Julian', 'password': '34523452', 'person_id': '2', 'active': 'N'})
+            users.append(self.users[0])
+            users.append(self.users[1])
+
         return users
 
     def insertContactToList(self, owner, uid):
-        # cursor = self.conn.cursor()
-        # query = 'insert into contactlist values(%s, %s);'
-        # cursor.execute(query, (owner, uid))
-        # self.conn.commit()
+
         print("Contact Inseted to list.")

@@ -7,11 +7,10 @@ class UserHandler:
     # Dictionaries
     def build_user_dict(self, row):
         result = row
-        # result['user_id'] = row[0]
-        # result['username'] = row[1]
-        # result['password'] = row[2]
-        # result['person_id'] = row[3]
-        # result['is_Active'] = row[4]
+        return result
+
+    def build_credential_dict(self, row):
+        result = {'UserId': row[0], 'Username': row[3]}
         return result
 
     def build_user_attributes(self, uid, username, password, person_id, is_active):
@@ -24,7 +23,6 @@ class UserHandler:
         return result
 
     # Gets
-
     def getAllUser(self):
         dao = UserDao()
         user_list = dao.getAllUser()
@@ -42,7 +40,17 @@ class UserHandler:
         else:
             user = self.build_user_dict(row)
             return jsonify(User=user)
-    #TODO: Finish search method.
+
+    def getAllUserChats(self, uid):
+        dao = UserDao()
+        row = dao.getAllUserChats(uid)
+        if not row:
+            return jsonify(Error="Not Found Chats for this user."), 404
+        else:
+            chats = self.build_user_dict(row)
+            return jsonify(Chats=chats)
+
+    # TODO: Finish search method.
     def searchUsers(self, args):
         username = args.get("username")
         firstName = args.get("firstName")
@@ -65,43 +73,23 @@ class UserHandler:
             result_list.append(result)
         return jsonify(User=result_list)
 
-    # This method return all users in a group chat.
-    def getAllUserByChat(self, chatId):
-        dao = UserDao()
-        user_list = dao.getAllUserByChat(chatId)
-        result_list = []
-        for row in user_list:
-            result = self.build_user_dict(row)
-            result_list.append(result)
-        return jsonify(User=result_list)
-
-
-
     # CRUDS
+    def insertUser(self):
+        dao = UserDao()
+        user = dao.insertUser()
+        result = self.build_user_dict(user)
+        return jsonify(User=result), 201
 
     def updateUser(self, uid, form):
         dao = UserDao()
-        if not dao.getUserById(uid):
-            return jsonify(Error="User not found."), 404
-        else:
-            if len(form) != 4:
-                return jsonify(Error="Malformed update request"), 400
-            else:
-                username = form['username']
-                password = form['password']
-                person_id = form['person_id']
-                is_active = form['is_active']
-                if username and password and person_id and is_active:
-                    dao.update(uid, username, password, person_id, is_active)
-                    result = self.build_user_attributes(uid, username, password, person_id, is_active)
-                    return jsonify(Part=result), 200
-                else:
-                    return jsonify(Error="Unexpected attributes in update request"), 400
+        user = dao.update()
+        result = self.build_user_dict(user)
+        return jsonify(User=result), 200
 
     def deleteUser(self, uid):
-        dao = UserDao()
-        if not dao.getUserById(uid):
-            return jsonify(Error="User not found."), 404
-        else:
-            dao.delete(uid)
         return jsonify(DeleteStatus="OK"), 200
+
+    def getCredentials(self):
+        dao = UserDao()
+        result = dao.getCredentials('', '')
+        return jsonify(User=self.build_credential_dict(result))

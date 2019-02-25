@@ -3,6 +3,8 @@ from flask_cors import CORS, cross_origin
 from handler.user import UserHandler
 from handler.chat import ChatHandler
 from handler.ContactList import ContactListHandler
+from handler.MessageHandler import MessageHandler
+from handler.PostHandler import PostHandler
 
 app = Flask(__name__)
 CORS(app)
@@ -17,16 +19,20 @@ def home():
 def homeforApp():
     return "Welcome to Pictochat"
 
+###################### User ######################################
+@app.route('/Pictochat/register', methods=['POST'])
+def register():
+    if request.method =='POST':
+        return UserHandler().insertUser()
 
-# TODO: Implement Dashboard
-# @app.route('/Pictochat/dashboard')  # OK
-# def dashboardsiplay():
-#     handler = DashboardHandler()
-#     return handler.dashboard()
-
+@app.route('/Pictochat/login', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        # return UserHandler().getCredentials(request.get_json('data'))
+        return UserHandler().getCredentials()
 
 @app.route('/Pictochat/users', methods=['GET', 'POST'])
-def getAllUserName():
+def getAllUsers():
     if request.method == 'GET':
         return UserHandler().getAllUser()
 
@@ -42,17 +48,22 @@ def getUserById(uid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-
-@app.route('/Pictochat/users/chat/<int:chatId>', methods=['GET', 'POST'])
-def getAllUserByChat(chatId):
-    if request.method == 'GET':
-        return UserHandler().getAllUserByChat(chatId)
-
-
-@app.route('/Pictochat/user/<int:uid>/contacts', methods=['GET', 'POST'])
+@app.route('/Pictochat/user/<int:uid>/contacts')
 def getUserContacts(uid):
-    if request.method == 'GET':
         return ContactListHandler().getContactsByUserId(uid)
+
+@app.route('/Pictochat/user/<int:uid>/posts', methods=['GET'])
+def getAllUserPosts(uid):
+    if request.method == 'GET':
+        return PostHandler().getPostsFromUser(uid)
+
+@app.route('/Pictochat/user/<int:uid>/chats', methods=['GET'])
+def getAllUserChats(uid):
+    if request.method == 'GET':
+        return UserHandler().getAllUserChats(uid)
+
+
+############################################################
 
 ############################################################
 # CHAT ROUTES - Renier
@@ -71,7 +82,29 @@ def getChatParticipants(chat_id):
 def getChatPost(chat_id):
     if request.method == 'GET':
         return ChatHandler().getChatPost(chat_id)
+
 ############################################################
+
+@app.route('/Pictochat/messages', methods=['GET', 'POST'])
+def getAllMessages():
+    if request.method == 'GET':
+        return MessageHandler().getAllMessages()
+
+
+@app.route('/Pictochat/message/<int:mid>', methods=['GET', 'POST'])
+def getMessageById(mid):
+    if request.method == 'GET':
+        return MessageHandler().getMessageById(mid)
+
+@app.route('/Pictochat/post/<int:pid>/message', methods=['GET'])
+def getPostMessage(pid):
+    if request.method == 'GET':
+        return MessageHandler().getMessagePost(pid)
+
+@app.route('/Pictochat/user/<int:uid>/messages', methods=['GET'])
+def getMessagesByUserId(uid):
+    if request.method == 'GET':
+        return MessageHandler().getMessagesByUserId(uid)
 
 
 if __name__ == '__main__':

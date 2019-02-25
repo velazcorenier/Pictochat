@@ -12,11 +12,7 @@ class ContactListHandler:
 
     def build_user_dict(self, row):
         result = row
-        # result['user_id'] = row[0]
-        # result['username'] = row[1]
-        # result['password'] = row[2]
-        # result['person_id'] = row[3]
-        # result['is_Active'] = row[4]
+
         return result
 
     def mapToDict(self, row):
@@ -41,7 +37,7 @@ class ContactListHandler:
         for row in contact_list:
             result = self.build_user_dict(row)
             result_list.append(result)
-        return jsonify(User=result_list)
+        return jsonify(ContactList=result_list)
 
     def contactAddition(self, owner, uid):
         dao = ContactListDAO().insertContactToList(owner, uid)
