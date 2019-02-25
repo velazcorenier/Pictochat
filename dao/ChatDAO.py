@@ -67,6 +67,30 @@ class ChatDAO:
         return []
 
 
+    def getChatMedia(self, chat_id):
+        if chat_id == 1:
+            return self.media[0:1]
+        elif chat_id == 2:
+            return self.media[1:2]
+        elif chat_id == 3:
+            return self.media[2:3]
+        return []
+
+    # def getChatHashtag(self, chat_id):
+
+    # def getChatReply(self, chat_id):
+
+
+    def getChatAllMessage(self, chat_id):
+        if chat_id == 1:
+            return self.messages[2:3]
+        elif chat_id == 2:
+            return self.messages[0:1]
+        elif chat_id == 3:
+            return self.messages[1:2]
+        return []
+
+
     # def getChatPhoto(self, chat_id):
 
     # def getChatHashtag(self, chat_id):

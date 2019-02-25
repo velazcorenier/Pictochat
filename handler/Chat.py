@@ -39,6 +39,14 @@ class ChatHandler:
         result['message_date'] = row[2]
         return result
 
+    # media_id, media_type, location
+    def build_chat_media_dict(self, row):
+        result = {}
+        result['media_id'] = row[0]
+        result['media_type'] = row[1]
+        result['location'] = row[2]
+        return result
+
     def getAllChat(self):
         dao = ChatDAO()
         chatlist = dao.getAllChat()
@@ -75,7 +83,15 @@ class ChatHandler:
             resultlist.append(result)
         return jsonify(Message=resultlist)
 
-    #def getChatPhoto(self, chat_id, chat_post):
+    def getChatMedia(self, chat_id):
+        dao = ChatDAO()
+        mediaList = dao.getChatMedia(chat_id)
+        resultlist = []
+        for row in mediaList:
+            result = self.build_chat_media_dict(row)
+            resultlist.append(result)
+        return jsonify(Media=resultlist)
+
 
     #def getChatHashtag(self, chat_id, chat_message):
 

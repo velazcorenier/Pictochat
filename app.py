@@ -76,6 +76,11 @@ def getChatPost(chat_id):
 def getChatMessage(chat_id):
     if request.method == 'GET':
         return ChatHandler().getChatAllMessage(chat_id)
+
+@app.route('/Pictochat/chat/<int:chat_id>/media', methods=['GET', 'POST'])
+def getChatMedia(chat_id):
+    if request.method == 'GET':
+        return ChatHandler().getChatMedia(chat_id)
 ############################################################
 
 
