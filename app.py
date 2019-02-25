@@ -91,6 +91,11 @@ def getAllChatName():
     if request.method == 'GET':
         return ChatHandler().getAllChat()
 
+@app.route('/Pictochat/chat/<int:chat_id>', methods=['GET', 'POST'])
+def getChatById(chat_id):
+    if request.method == 'GET':
+        return ChatHandler().getChatById(chat_id)
+
 @app.route('/Pictochat/chat/<int:chat_id>/participant', methods=['GET', 'POST'])
 def getChatParticipants(chat_id):
     if request.method == 'GET':
@@ -160,6 +165,7 @@ def getPostMedia(pid):
 def getReplysByPostId(pid):
     if request.method == 'GET':
         return PostHandler().getReplysByPostId(pid)
+
 
 ###### Hashtags ######
 @app.route('/Pictochat/hashtags', methods=['GET', 'POST'])
