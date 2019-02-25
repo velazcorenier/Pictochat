@@ -58,6 +58,15 @@ class ChatHandler:
             resultlist.append(result)
         return jsonify(Chat_Name=resultlist)
 
+    def getChatById(self,chat_id):
+        dao = ChatDAO()
+        chatlist = dao.getChatById(chat_id)
+        resultlist = []
+        for row in chatlist:
+            result = self.build_chat_name_dict(row)
+            resultlist.append(result)
+        return jsonify(Chat=resultlist)
+
     def getChatParticipant(self, chat_id):
         dao = ChatDAO()
         participantlist = dao.getChatParticipant(chat_id)

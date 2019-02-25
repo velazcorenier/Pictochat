@@ -48,6 +48,15 @@ class ChatDAO:
     def getAllChat(self):
         return self.chat[0:3]
 
+    def getChatById(self,chat_id):
+        if chat_id == 1:
+            return self.chat[0:1]
+        elif chat_id == 2:
+            return self.chat[1:2]
+        elif chat_id == 3:
+            return self.chat[2:3]
+        return []
+
     def getChatParticipant(self, chat_id):
         if chat_id == 1:
             return self.participant[0:3]
