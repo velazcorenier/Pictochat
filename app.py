@@ -25,6 +25,7 @@ def homeforApp():
     return "Welcome to Pictochat"
 
 ###################### User ######################################
+
 @app.route('/Pictochat/register', methods=['POST'])
 def register():
     if request.method =='POST':
@@ -41,6 +42,7 @@ def getAllUsers():
     if request.method == 'GET':
         return UserHandler().getAllUser()
 
+  ########## CRUDS User ##########
 
 @app.route('/Pictochat/user/<int:uid>', methods=['GET', 'PUT', 'DELETE'])
 def getUserById(uid):
@@ -53,10 +55,6 @@ def getUserById(uid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/Pictochat/user/<int:uid>/contacts')
-def getUserContacts(uid):
-        return ContactListHandler().getContactsByUserId(uid)
-
 @app.route('/Pictochat/user/<int:uid>/posts', methods=['GET'])
 def getAllUserPosts(uid):
     if request.method == 'GET':
@@ -67,6 +65,29 @@ def getAllUserChats(uid):
     if request.method == 'GET':
         return UserHandler().getAllUserChats(uid)
 
+@app.route('/Pictochat/user/<int:uid>/username', methods=['GET'])
+def getUserUsername(uid):
+    if request.method == 'GET':
+        return UserHandler().getUserUsername(uid)
+
+###################### Contacts ######################################
+
+@app.route('/Pictochat/user/<int:uid>/contacts', methods=['GET'])
+def getUserContacts(uid):
+    if request.method == 'GET':
+        return ContactListHandler().getContactsByUserId(uid)
+
+# CRUDS
+@app.route('/Pictochat/user/<int:owner>/contacts/addUser/<int:uid>', methods=['PUT'])
+def addUsertoContactList(owner, uid):
+    if request.method == 'PUT':
+        handler = ContactListHandler()
+        return handler.contactAddition(owner, uid)
+@app.route('/Pictochat/user/<int:owner>/contacts/removeUser/<int:uid>', methods=['DELETE'])
+def removeUserFromContactList(owner, uid):
+    if request.method == 'DELETE':
+        handler = ContactListHandler()
+        return handler.removeContact(owner, uid)
 
 ############################################################
 # CHAT ROUTES - Renier

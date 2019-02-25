@@ -27,3 +27,7 @@ class ContactListDAO:
     def insertContactToList(self, owner, uid):
 
         print("Contact Inseted to list.")
+
+    def removeUserFromContactList(self, owner, uid):
+
+        print("Contact Removed.")

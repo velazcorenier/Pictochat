@@ -13,15 +13,6 @@ class UserHandler:
         result = {'UserId': row[0], 'Username': row[3]}
         return result
 
-    def build_user_attributes(self, uid, username, password, person_id, is_active):
-        result = {}
-        result['uid'] = uid
-        result['username'] = username
-        result['password'] = password
-        result['person_id'] = person_id
-        result['is_active'] = is_active
-        return result
-
     # Gets
     def getAllUser(self):
         dao = UserDao()
@@ -32,9 +23,9 @@ class UserHandler:
             result_list.append(result)
         return jsonify(User=result_list)
 
-    def getUserById(self, pid):
+    def getUserById(self, uid):
         dao = UserDao()
-        row = dao.getUserById(pid)
+        row = dao.getUserById(uid)
         if not row:
             return jsonify(Error="User Not Found"), 404
         else:
@@ -50,28 +41,38 @@ class UserHandler:
             chats = self.build_user_dict(row)
             return jsonify(Chats=chats)
 
+    def getUserUsername(self, uid):
+        username = UserDao().getUsername(uid)
+
+        if not username:
+            return jsonify(Error="USER NOT FOUND"), 404
+
+        result = {}
+        result['username'] = username
+        return jsonify(Username=result)
+
     # TODO: Finish search method.
-    def searchUsers(self, args):
-        username = args.get("username")
-        firstName = args.get("firstName")
-        lastName = args.get("lastName")
-        dao = UserDao()
-        user_list = []
-        if (len(args) == 2) and firstName and lastName:
-            user_list = dao.getUserByFirstNameAndLastName(firstName, lastName)
-        elif (len(args) == 1) and firstName:
-            user_list = dao.getUserByFirstName(firstName)
-        elif (len(args) == 1) and lastName:
-            user_list = dao.getUserByLastName(lastName)
-        elif (len(args) == 1) and username:
-            user_list = dao.getUserByUsername(username)
-        else:
-            return jsonify(Error="Malformed query string"), 400
-        result_list = []
-        for row in user_list:
-            result = self.build_user_dict(row)
-            result_list.append(result)
-        return jsonify(User=result_list)
+    # def searchUsers(self, args):
+    #     username = args.get("username")
+    #     firstName = args.get("firstName")
+    #     lastName = args.get("lastName")
+    #     dao = UserDao()
+    #     user_list = []
+    #     if (len(args) == 2) and firstName and lastName:
+    #         user_list = dao.getUserByFirstNameAndLastName(firstName, lastName)
+    #     elif (len(args) == 1) and firstName:
+    #         user_list = dao.getUserByFirstName(firstName)
+    #     elif (len(args) == 1) and lastName:
+    #         user_list = dao.getUserByLastName(lastName)
+    #     elif (len(args) == 1) and username:
+    #         user_list = dao.getUserByUsername(username)
+    #     else:
+    #         return jsonify(Error="Malformed query string"), 400
+    #     result_list = []
+    #     for row in user_list:
+    #         result = self.build_user_dict(row)
+    #         result_list.append(result)
+    #     return jsonify(User=result_list)
 
     # CRUDS
     def insertUser(self):
@@ -82,7 +83,10 @@ class UserHandler:
 
     def updateUser(self, uid, form):
         dao = UserDao()
-        user = dao.update()
+        user = dao.update(uid)
+        if not user:
+            return jsonify(Error="USER NOT FOUND"), 404
+
         result = self.build_user_dict(user)
         return jsonify(User=result), 200
 

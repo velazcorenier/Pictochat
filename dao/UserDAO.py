@@ -33,48 +33,19 @@ class UserDao:
         users = self.users
         return users
 
-    def getUserById(self, uId):
-        user = self.users[1]
+    def getUserById(self, uid):
+        user = {}
+        if uid < self.users.__len__():
+            user = self.users[uid]
 
         return user
-
-    def getUserByFirstName(self, firstName):
-        # cursor = self.conn.cursor()
-        # query = "select * from user where firstName = %s;"
-        # cursor.execute(query, (color,))
-        result = []
-        # for row in cursor:
-        #     result.append(row)
-        return result
-
-    def getUserByLastName(self, lastName):
-        # cursor = self.conn.cursor()
-        # query = "select * from user where lastNme = %s;"
-        # cursor.execute(query, (material,))
-        result = []
-        # for row in cursor:
-            # result.append(row)
-        return result
-
-    def getUserByFirstNameAndLastName(self, firstName, lastName):
-
-        result = []
-        # for row in cursor:
-        #     result.append(row)
-        return result
-
-    def getUserByUsername(self, username):
-        # cursor = self.conn.cursor()
-        # query = "select * from user where username = %s;"
-        # cursor.execute(query, (material, color))
-        result = []
-        # for row in cursor:
-        #     result.append(row)
-        return result
 
     def getAllUserChats(self, uid):
         result = self.chat[0:2]
         return result
+
+    def getUsername(self, uid):
+        return self.users[uid][3]
 
     # CRUDS
 
@@ -86,8 +57,10 @@ class UserDao:
 
         return uid
 
-    def update(self):
-        user = self.users[1]
+    def update(self, uid):
+        user = {}
+        if uid < self.users.__len__():
+            user = self.users[uid]
 
         return user
 

@@ -32,13 +32,21 @@ class ContactListHandler:
 
     def getContactsByUserId(self, uid):
         dao = ContactListDAO()
-        contact_list = dao.getContactsByUserId(uid)
+        contactList = dao.getContactsByUserId(uid)
+        if not contactList:
+            return jsonify(Error="User not have Contact list."), 404
+
         result_list = []
-        for row in contact_list:
+        for row in contactList:
             result = self.build_user_dict(row)
             result_list.append(result)
         return jsonify(ContactList=result_list)
 
     def contactAddition(self, owner, uid):
         dao = ContactListDAO().insertContactToList(owner, uid)
-        return jsonify(Result=dao), 200
+        return jsonify(UpdateStatus="User added to Contact List"), 200
+
+    def removeContact(self, owner, uid):
+        dao = ContactListDAO().removeUserFromContactList(owner, uid)
+
+        return jsonify(DeleteStatus="User removed from contact list."), 200
