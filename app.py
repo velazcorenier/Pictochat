@@ -55,14 +55,9 @@ def getUserById(uid):
         return jsonify(Error="Method not allowed."), 405
 
 @app.route('/Pictochat/user/<int:uid>/posts', methods=['GET'])
-def getAllUserPosts(uid):
+def getPostsByUserId(uid):
     if request.method == 'GET':
-        return PostHandler().getPostsFromUser(uid)
-
-# @app.route('/Pictochat/user/<int:uid>/chats', methods=['GET'])
-# def getAllUserChats(uid):
-#     if request.method == 'GET':
-#         return UserHandler().getAllUserChats(uid)
+        return UserHandler().getPostsFromUser(uid)
 
 @app.route('/Pictochat/user/<int:uid>/username', methods=['GET'])
 def getUsername(uid):
@@ -146,6 +141,11 @@ def getPostById(postid):
     if request.method == 'GET':
         return PostHandler().getPostById(postid)
 
+@app.route('/Pictochat/post/<int:pid>/owner', methods=['GET'])
+def getPostOwner(pid):
+    if request.method == 'GET':
+        return PostHandler().getPostOwner(pid)
+
 @app.route('/Pictochat/post/<int:pid>/message', methods=['GET'])
 def getPostMessage(pid):
     if request.method == 'GET':
@@ -156,10 +156,10 @@ def getPostMedia(pid):
     if request.method == 'GET':
         return PostHandler().getPostMedia(pid)
 
-@app.route('/Pictochat/user/<int:uid>/posts', methods=['GET'])
-def getPostByUserId(uid):
+@app.route('/Pictochat/post/<int:pid>/replys', methods=['GET'])
+def getReplysByPostId(pid):
     if request.method == 'GET':
-        return PostHandler().getPostsFromUser(uid)
+        return PostHandler().getReplysByPostId(pid)
 
 ###### Hashtags ######
 @app.route('/Pictochat/hashtags', methods=['GET', 'POST'])

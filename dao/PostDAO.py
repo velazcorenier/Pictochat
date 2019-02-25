@@ -15,10 +15,20 @@ class PostDAO:
                      [2, "Jangueadores", 2],
                      [3, "Memes", 1]]
 
-        # post_id, chat_id, message_id, location, owner_id
-        self.post = [[1, 3, "Mensaje 1", "c://localhost/photos/dog.jpeg", 2],
-                     [2, 2, "Mensaje 2", "c://localhost/photos/cat.jpeg", 1],
-                     [3, 1, "Mensaje 3", "c://localhost/photos/cow.jpeg", 3]]
+        # post_id, chat_id, caption, media_id, owner_id, post_date
+        self.post = [[1, 3, "Vamos a janguear", 10, 2, "25-2-2019"],
+                     [2, 2, "Para donde vamos", 20, 1, "23-2-2019"],
+                     [3, 1, "DIMELO CONSUL", 30, 3, "24-3-2019"]]
+
+        # media_id, media_type, location
+        self.media = [[1, "photo", "c://localhost/photos/dog.jpeg"],
+                      [2, "photo", "c://localhost/photos/cat.jpeg"],
+                      [3, "photo", "c://localhost/photos/cow.jpeg"]]
+
+        # reply_id, text, post_id, message_date, user_id
+        self.reply = [[1, "Donde sea", 3, "28-2-2019", 1],
+                      [2, "Tu me dice y le llegamos", 1, "27-3-2019", 2],
+                      [3, "BROTHEL tu sae como eh", 2, "26-4-2019", 3]]
 
 
 
@@ -32,14 +42,6 @@ class PostDAO:
         for r in self.post.__iter__():
             if r[1] == chatId:
                 result.append(r)
-
-        return result
-
-    def postsFromUser(self, userId):
-        result = []
-        for r in self.post.__iter__():
-            if r[4] == userId:
-                result = r
 
         return result
 
@@ -59,11 +61,27 @@ class PostDAO:
 
         return result
 
+    def getPostOwner(self, postId):
+        result = []
+        for r in self.post.__iter__():
+            if r[0] == postId:
+                result = r[4]
+
+        return result
+
     def getPostMedia(self, postId):
         result = []
         for r in self.post.__iter__():
             if r[0] == postId:
                 result = r[3]
+
+        return result
+
+    def getReplysByPostId(self, postId):
+        result = []
+        for r in self.reply.__iter__():
+            if r[2] == postId:
+                result = r
 
         return result
 

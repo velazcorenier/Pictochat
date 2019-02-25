@@ -3,14 +3,37 @@ from flask import jsonify, make_response
 
 
 class PostHandler:
+    def build_post_dict(self, row):
+        result = {}
+        result['post_id'] = row[0]
+        result['chat_id'] = row[1]
+        result['caption'] = row[2]
+        result['media_id'] = row[3]
+        result['user_id'] = row[4]
+        result['post_date'] = row[5]
+        return result
+
+        # user_id, first_name, last_name, email, phone
+
+    def build_chat_user_dict(self, row):
+        result = {}
+        result['user_id'] = row[0]
+        result['first_name'] = row[1]
+        result['last_name'] = row[2]
+        result['email'] = row[3]
+        result['phone'] = row[4]
+        return result
+
     # GET's
     def getPostById(self, postid):
         post = PostDAO().postById(postid)
         if not post:
             return jsonify(Error="POST NOT FOUND"), 404
 
-        return jsonify(Post=post)
-
+        resultlist = []
+        result = self.build_post_dict(post)
+        resultlist.append(result)
+        return jsonify(Post=resultlist)
 
     def getAllPosts(self):
         posts = PostDAO().getAllPosts()
@@ -18,26 +41,8 @@ class PostHandler:
             return jsonify(Error="NOT FOUND POSTS"), 404
         result = []
         for p in posts:
-            result.append(p)
+            result.append(self.build_post_dict(p))
         return jsonify(AllPosts=result)
-
-    def getPostsFromChat(self, cid):
-        posts = PostDAO().getAllPostsFromChatId(cid)
-        if not posts:
-            return jsonify(Error="NOT FOUND POSTS ON CHAT"), 404
-        result = []
-        for p in posts:
-            result.append(p)
-        return jsonify(PostsFromChat=result)
-
-    def getPostsFromUser(self, uid):
-        posts = PostDAO().postsFromUser(uid)
-        if not posts:
-            return jsonify(Error="NOT FOUND POSTS FROM USER"), 404
-        result = []
-        for p in posts:
-            result.append(p)
-        return jsonify(PostsFromUser=result)
 
     def getPostPerDay(self, day):
         posts = PostDAO().getPostsPerDay(day)
@@ -56,13 +61,30 @@ class PostHandler:
 
         return jsonify(MessageOfPost=message)
 
-    def getPostMedia(self, postid):
-        message = PostDAO().getPostMedia(postid)
+    def getPostOwner(self, postid):
+        postOwner = PostDAO().getPostOwner(postid)
 
-        if not message:
+        if not postOwner:
+            return jsonify(Error="NOT FOUND OWNER POST"), 404
+
+        return jsonify(PostOwner=postOwner)
+
+
+    def getPostMedia(self, postid):
+        media = PostDAO().getPostMedia(postid)
+
+        if not media:
             return jsonify(Error="Media NOT FOUND"), 404
 
-        return jsonify(MediaOfPost=message)
+        return jsonify(MediaOfPost=media)
+
+    def getReplysByPostId(self, postid):
+        message = PostDAO().getReplysByPostId(postid)
+
+        if not message:
+            return jsonify(Error="Replys NOT FOUND"), 404
+
+        return jsonify(PostReplys=message)
 
 #     CRUD'S
 
