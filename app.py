@@ -92,8 +92,9 @@ def getChatMessage(chat_id):
 def getChatMedia(chat_id):
     if request.method == 'GET':
         return ChatHandler().getChatMedia(chat_id)
-############################################################
 
+############################################################
+# TODO: Finish message REST
 @app.route('/Pictochat/messages', methods=['GET', 'POST'])
 def getAllMessages():
     if request.method == 'GET':
