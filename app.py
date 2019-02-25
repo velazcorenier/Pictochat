@@ -64,8 +64,6 @@ def getAllUserChats(uid):
 
 
 ############################################################
-
-############################################################
 # CHAT ROUTES - Renier
 
 @app.route('/Pictochat/chat', methods=['GET', 'POST'])
@@ -78,20 +76,37 @@ def getChatParticipants(chat_id):
     if request.method == 'GET':
         return ChatHandler().getChatParticipant(chat_id)
 
+@app.route('/Pictochat/chat/<int:chat_id>/admin', methods=['GET', 'POST'])
+def getChatAdmin(chat_id):
+    if request.method == 'GET':
+        return ChatHandler().getChatAdmin(chat_id)
+
 @app.route('/Pictochat/chat/<int:chat_id>/post', methods=['GET', 'POST'])
 def getChatPost(chat_id):
     if request.method == 'GET':
         return ChatHandler().getChatPost(chat_id)
 
-@app.route('/Pictochat/chat/<int:chat_id>/message', methods=['GET', 'POST'])
-def getChatMessage(chat_id):
-    if request.method == 'GET':
-        return ChatHandler().getChatAllMessage(chat_id)
-
 @app.route('/Pictochat/chat/<int:chat_id>/media', methods=['GET', 'POST'])
 def getChatMedia(chat_id):
     if request.method == 'GET':
         return ChatHandler().getChatMedia(chat_id)
+
+# CRUDS
+@app.route('/Pictochat/chat/<string:chat_name>/<int:admin_id>', methods=['POST'])
+def createChat(chat_name,admin_id):
+    if request.method == 'POST':
+        return ChatHandler().createChat(chat_name,admin_id)
+
+@app.route('/Pictochat/chat/<int:chat_id>/<string:chat_name>/<int:admin_id>', methods=['PUT'])
+def updateChat(chat_id,chat_name,admin_id):
+    if request.method == 'PUT':
+        return ChatHandler().updateChat(chat_id,chat_name,admin_id)
+
+@app.route('/Pictochat/chat/<int:chat_id>', methods=['DELETE'])
+def deleteChat(chat_id):
+    if request.method == 'DELETE':
+        return ChatHandler().deleteChat(chat_id)
+
 
 ############################################################
 # TODO: Finish message REST

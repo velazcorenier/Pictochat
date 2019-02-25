@@ -12,6 +12,16 @@ class ChatHandler:
         result['admin_id'] = row[2]
         return result
 
+    # user_id, first_name, last_name, email, phone
+    def build_chat_user_dict(self, row):
+        result = {}
+        result['user_id'] = row[0]
+        result['first_name'] = row[1]
+        result['last_name'] = row[2]
+        result['email'] = row[3]
+        result['phone'] = row[4]
+        return result
+
     # participant_id chat_id, user_id
     def build_chat_participant_dict(self, row):
         result = {}
@@ -20,23 +30,15 @@ class ChatHandler:
         result['user_id'] = row[2]
         return result
 
-    # post_id, chat_id, message_id, media_id, owner_id, post_date
+    # post_id, chat_id, caption, media_id, owner_id, post_date
     def build_chat_post_dict(self, row):
         result = {}
         result['post_id'] = row[0]
         result['chat_id'] = row[1]
-        result['message_id'] = row[2]
+        result['caption'] = row[2]
         result['media_id'] = row[3]
         result['owner_id'] = row[4]
         result['post_date'] = row[5]
-        return result
-
-    # message_id, text, message_date
-    def build_chat_message_dict(self, row):
-        result = {}
-        result['message_id'] = row[0]
-        result['text'] = row[1]
-        result['message_date'] = row[2]
         return result
 
     # media_id, media_type, location
@@ -65,6 +67,15 @@ class ChatHandler:
             resultlist.append(result)
         return jsonify(Participant=resultlist)
 
+    def getChatAdmin(self, chat_id):
+        dao = ChatDAO()
+        userList = dao.getChatAdmin(chat_id)
+        resultlist = []
+        for row in userList:
+            result = self.build_chat_user_dict(row)
+            resultlist.append(result)
+        return jsonify(User=resultlist)
+
     def getChatPost(self, chat_id):
         dao = ChatDAO()
         postlist = dao.getChatPost(chat_id)
@@ -74,14 +85,6 @@ class ChatHandler:
             resultlist.append(result)
         return jsonify(Post=resultlist)
 
-    def getChatAllMessage(self, chat_id):
-        dao = ChatDAO()
-        messagelist = dao.getChatAllMessage(chat_id)
-        resultlist = []
-        for row in messagelist:
-            result = self.build_chat_message_dict(row)
-            resultlist.append(result)
-        return jsonify(Message=resultlist)
 
     def getChatMedia(self, chat_id):
         dao = ChatDAO()
@@ -92,7 +95,14 @@ class ChatHandler:
             resultlist.append(result)
         return jsonify(Media=resultlist)
 
+    # CRUDS
+    def createChat(self, chat_name, admin_id):
+        return jsonify(CreateStatus="Created"), 201
 
-    #def getChatHashtag(self, chat_id, chat_message):
+    def updateChat(self, chat_id, chat_name, admin_id):
+        return jsonify(UpdateStatus="Updated"), 200
 
-    #def getChatReply(self, chat_id, chat_message):
+    def deleteChat(self, chat_id):
+        return jsonify(DeleteStatus="OK"), 200
+
+

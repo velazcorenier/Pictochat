@@ -10,30 +10,40 @@ class ChatDAO:
                             [2, "julian.cuevas32", "jogioiwpg"],
                             [3, "cristian.torres45", "ojgirjtpw"]]
 
-        # message_id, text, message_date
-        self.messages = [[12, "Vamos a janguear", "23-2-2019"],
-                         [25, "Para donde vamos", "24-3-2019"],
-                         [44, "DIMELO CONSUL", "25-4-2019"]]
+        # reply_id, text, post_id, message_date
+        self.reply = [[1, "Donde sea", 3, "28-2-2019"],
+                     [2, "Tu me dice y le llegamos", 1, "27-3-2019"],
+                     [3, "BROTHEL tu sae como eh", 2, "26-4-2019"]]
+
 
         # chat_id, chat_name, admin_id
         self.chat = [[1, "Maquinas", 3],
                      [2, "Jangueadores", 2],
                      [3, "Memes", 1]]
 
-        # post_id, chat_id, message_id, media_id, owner_id, post_date
-        self.post = [[1, 3, 44, 10, 2, "25-2-2019"],
-                     [2 , 2, 12, 20, 1, "23-2-2019"],
-                     [3, 1, 25, 30, 3, "24-3-2019"]]
+        # post_id, chat_id, caption, media_id, owner_id, post_date
+        self.post = [[1, 3, "Vamos a janguear", 10, 2, "25-2-2019"],
+                     [2, 2, "Para donde vamos", 20, 1, "23-2-2019"],
+                     [3, 1, "DIMELO CONSUL", 30, 3, "24-3-2019"]]
 
         # media_id, media_type, location
-        self.media = [[10, "photo", "c://localhost/photos/dog.jpeg"],
-                      [20, "photo", "c://localhost/photos/cat.jpeg"],
-                      [30, "photo", "c://localhost/photos/cow.jpeg"]]
+        self.media = [[1, "photo", "c://localhost/photos/dog.jpeg"],
+                      [2, "photo", "c://localhost/photos/cat.jpeg"],
+                      [3, "photo", "c://localhost/photos/cow.jpeg"]]
+
+        # hashtag, post_id
+        self.topic = [["mindblowing", 2], ["wtf", 3], ["doyouevenlift?", 1]]
+
+        # reaction_id, post_id, reaction_date, reaction_type
+        self.reaction = [[1, 2, "25-3-2019", 1],
+                        [2, 1, "26-3-2019", -1],
+                        [3, 3, "27-3-2019", 1]]
 
 
         # paticipant_id chat_id, user_id
         self.participant = [[1, 1, 1], [2, 1, 2], [3, 1, 3], [4, 2, 1],
                              [5, 2, 3], [6, 3, 1], [7, 3, 2], [8, 3, 3]]
+
 
     def getAllChat(self):
         return self.chat[0:3]
@@ -47,6 +57,15 @@ class ChatDAO:
             return self.participant[5:8]
         return []
 
+    def getChatAdmin(self, chat_id):
+        if chat_id == 1:
+            return self.users[2:3]
+        elif chat_id == 2:
+            return self.users[1:2]
+        elif chat_id == 3:
+            return self.users[0:1]
+        return []
+
     def getChatPost(self, chat_id):
         if chat_id == 1:
             return self.post[2:3]
@@ -54,16 +73,6 @@ class ChatDAO:
             return self.post[1:2]
         elif chat_id == 3:
             return self.post[0:1]
-        return []
-
-
-    def getChatAllMessage(self, chat_id):
-        if chat_id == 1:
-            return self.messages[2:3]
-        elif chat_id == 2:
-            return self.messages[0:1]
-        elif chat_id == 3:
-            return self.messages[1:2]
         return []
 
 
@@ -76,25 +85,12 @@ class ChatDAO:
             return self.media[2:3]
         return []
 
-    # def getChatHashtag(self, chat_id):
-
-    # def getChatReply(self, chat_id):
 
 
-    def getChatAllMessage(self, chat_id):
-        if chat_id == 1:
-            return self.messages[2:3]
-        elif chat_id == 2:
-            return self.messages[0:1]
-        elif chat_id == 3:
-            return self.messages[1:2]
-        return []
 
 
-    # def getChatPhoto(self, chat_id):
 
-    # def getChatHashtag(self, chat_id):
 
-    # def getChatReply(self, chat_id):
+
 
 
