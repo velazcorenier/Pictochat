@@ -5,6 +5,8 @@ from handler.Chat import ChatHandler
 from handler.ContactList import ContactListHandler
 from handler.MessageHandler import MessageHandler
 from handler.PostHandler import PostHandler
+from handler.hashtagHandler import HashtagHandler
+
 
 app = Flask(__name__)
 CORS(app)
@@ -130,6 +132,33 @@ def getPostMessage(pid):
 def getMessagesByUserId(uid):
     if request.method == 'GET':
         return MessageHandler().getMessagesByUserId(uid)
+
+###### Hashtags ######
+@app.route('/Pictochat/hashtags', methods=['GET', 'POST'])
+def getAllHashtags():
+    if request.method == 'GET':
+        return HashtagHandler().getAllHashtags()
+
+@app.route('/Pictochat/hashtags/<int:hashtag_id>', methods=['GET', 'POST'])
+def getHashtagById(hashtag_id):
+    if request.method == 'GET':
+        return HashtagHandler().getHashtagById(hashtag_id)
+
+# CRUDS
+@app.route('/Pictochat/hashtags/<string:hashtag_text>', methods=['POST'])
+def createHashtag(hashtag_text):
+    if request.method == 'POST':
+        return HashtagHandler().createHashtag(hashtag_text)
+
+@app.route('/Pictochat/hashtags/<int:hashtag_id>/<string:hashtag_text>', methods=['PUT'])
+def updateHashtag(hashtag_id, hashtag_text):
+    if request.method == 'PUT':
+        return HashtagHandler().updateHashtag(hashtag_id, hashtag_text)
+
+@app.route('/Pictochat/hashtags/<int:hashtag_id>', methods=['DELETE'])
+def deleteHashtag(hashtag_id):
+    if request.method == 'DELETE':
+        return HashtagHandler().deleteHashtag(hashtag_id)
 
 
 if __name__ == '__main__':
