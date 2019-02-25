@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from handler.user import UserHandler
-from handler.chat import ChatHandler
+from handler.Chat import ChatHandler
 from handler.ContactList import ContactListHandler
 
 app = Flask(__name__)
@@ -71,6 +71,11 @@ def getChatParticipants(chat_id):
 def getChatPost(chat_id):
     if request.method == 'GET':
         return ChatHandler().getChatPost(chat_id)
+
+@app.route('/Pictochat/chat/<int:chat_id>/message', methods=['GET', 'POST'])
+def getChatMessage(chat_id):
+    if request.method == 'GET':
+        return ChatHandler().getChatAllMessage(chat_id)
 ############################################################
 
 

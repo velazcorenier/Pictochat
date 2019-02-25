@@ -1,29 +1,42 @@
 from flask import jsonify
-from dao.chat import ChatDAO
+from dao.ChatDAO import ChatDAO
+
 
 class ChatHandler:
 
+    # chat_id, chat_name, admin_id
     def build_chat_name_dict(self, row):
         result = {}
         result['chat_id'] = row[0]
         result['name'] = row[1]
-        result['admin'] = row[2]
+        result['admin_id'] = row[2]
         return result
 
+    # participant_id chat_id, user_id
     def build_chat_participant_dict(self, row):
         result = {}
-        result['chat_id'] = row[0]
-        result['user_id'] = row[1]
+        result['participant_id'] = row[0]
+        result['chat_id'] = row[1]
+        result['user_id'] = row[2]
         return result
 
-    # post_id, chat_id, message_id, location, owner_id
+    # post_id, chat_id, message_id, media_id, owner_id, post_date
     def build_chat_post_dict(self, row):
         result = {}
         result['post_id'] = row[0]
         result['chat_id'] = row[1]
         result['message_id'] = row[2]
-        result['location'] = row[3]
+        result['media_id'] = row[3]
         result['owner_id'] = row[4]
+        result['post_date'] = row[5]
+        return result
+
+    # message_id, text, message_date
+    def build_chat_message_dict(self, row):
+        result = {}
+        result['message_id'] = row[0]
+        result['text'] = row[1]
+        result['message_date'] = row[2]
         return result
 
     def getAllChat(self):
@@ -53,10 +66,17 @@ class ChatHandler:
             resultlist.append(result)
         return jsonify(Post=resultlist)
 
-   # def getChatMessage(self, chat_id, chat_post):
+    def getChatAllMessage(self, chat_id):
+        dao = ChatDAO()
+        messagelist = dao.getChatAllMessage(chat_id)
+        resultlist = []
+        for row in messagelist:
+            result = self.build_chat_message_dict(row)
+            resultlist.append(result)
+        return jsonify(Message=resultlist)
 
-   # def getChatPhoto(self, chat_id, chat_post):
+    #def getChatPhoto(self, chat_id, chat_post):
 
-   # def getChatHashtag(self, chat_id, chat_message):
+    #def getChatHashtag(self, chat_id, chat_message):
 
-   # def getChatReply(self, chat_id, chat_message):
+    #def getChatReply(self, chat_id, chat_message):
