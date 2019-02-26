@@ -13,6 +13,16 @@ class UserHandler:
         result = {'UserId': row[0], 'Username': row[3]}
         return result
 
+    # reaction_id, post_id, user_id reaction_date, reaction_type
+    def build_user_reaction_dict(self, row):
+        result = {}
+        result['reaction_id'] = row[0]
+        result['post_id'] = row[1]
+        result['user_id'] = row[2]
+        result['reaction_id'] = row[3]
+        result['reaction_type'] = row[4]
+        return result
+
     # Gets
     def getAllUser(self):
         dao = UserDao()
@@ -22,6 +32,15 @@ class UserHandler:
             result = self.build_user_dict(row)
             result_list.append(result)
         return jsonify(User=result_list)
+
+    def getUserAllReaction(self,uid):
+        dao = UserDao()
+        user_reaction_list = dao.getUserReaction(uid)
+        result_list = []
+        for row in user_reaction_list:
+            result = self.build_user_reaction_dict(row)
+            result_list.append(result)
+        return jsonify(ReactionsByUser=result_list)
 
     def getUserById(self, uid):
         dao = UserDao()

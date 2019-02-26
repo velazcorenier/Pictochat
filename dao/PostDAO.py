@@ -20,6 +20,11 @@ class PostDAO:
                      [2, 2, "Mensaje 2", "c://localhost/photos/cat.jpeg", 1],
                      [3, 1, "Mensaje 3", "c://localhost/photos/cow.jpeg", 3]]
 
+        # reaction_id, post_id, user_id reaction_date, reaction_type
+        self.reaction = [[1, 2, 2, "25-3-2019", 1],
+                         [2, 1, 1, "26-3-2019", -1],
+                         [3, 3, 3, "27-3-2019", 1]]
+
 
 
     def getAllPosts(self):
@@ -74,4 +79,13 @@ class PostDAO:
     def insertPost(self):
         result = self.post[2]
         return result
+
+    def getPostReaction(self, postid):
+        if postid == 1:
+            return self.reaction[1:2]
+        elif postid == 2:
+            return self.reaction[0:1]
+        elif postid == 3:
+            return self.reaction[2:3]
+        return []
 

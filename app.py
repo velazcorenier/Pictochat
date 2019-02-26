@@ -64,6 +64,11 @@ def getAllUserPosts(uid):
 #     if request.method == 'GET':
 #         return UserHandler().getAllUserChats(uid)
 
+@app.route('/Pictochat/user/<int:uid>/reaction', methods=['GET'])
+def getUserAllReaction(uid):
+    if request.method == 'GET':
+        return UserHandler().getUserAllReaction(uid)
+
 @app.route('/Pictochat/user/<int:uid>/username', methods=['GET'])
 def getUsername(uid):
     if request.method == 'GET':
@@ -150,6 +155,12 @@ def getAllPost():
 def getPostById(postid):
     if request.method == 'GET':
         return PostHandler().getPostById(postid)
+
+@app.route('/Pictochat/post/<int:postid>/reaction', methods=['GET'])
+def getPostAllReaction(postid):
+    if request.method == 'GET':
+        return PostHandler().getPostAllReaction(postid)
+
 
 @app.route('/Pictochat/post/<int:pid>/message', methods=['GET'])
 def getPostMessage(pid):

@@ -3,6 +3,18 @@ from flask import jsonify, make_response
 
 
 class PostHandler:
+
+    # reaction_id, post_id, user_id reaction_date, reaction_type
+    def build_post_reaction_dict(self, row):
+        result = {}
+        result['reaction_id'] = row[0]
+        result['post_id'] = row[1]
+        result['user_id'] = row[2]
+        result['reaction_id'] = row[3]
+        result['reaction_type'] = row[4]
+        return result
+
+
     # GET's
     def getPostById(self, postid):
         post = PostDAO().postById(postid)
@@ -63,6 +75,17 @@ class PostHandler:
             return jsonify(Error="Media NOT FOUND"), 404
 
         return jsonify(MediaOfPost=message)
+
+    def getPostAllReaction(self,postid):
+        dao = PostDAO()
+        post_reaction_list = dao.getPostReaction(postid)
+        result_list = []
+        for row in post_reaction_list:
+            result = self.build_post_reaction_dict(row)
+            result_list.append(result)
+        return jsonify(ReactionsPost=result_list)
+
+
 
 #     CRUD'S
 

@@ -25,6 +25,11 @@ class UserDao:
                      [2, 2, 12, "c://localhost/photos/cat.jpeg", 1],
                      [3, 1, 25, "c://localhost/photos/cow.jpeg", 3]]
 
+        # reaction_id, post_id, user_id reaction_date, reaction_type
+        self.reaction = [[1, 2, 2, "25-3-2019", 1],
+                         [2, 1, 1, "26-3-2019", -1],
+                         [3, 3, 3,"27-3-2019", 1]]
+
         # chat_id, user_id
         self.participant = [[1, 1], [1, 2], [1, 3], [2, 1],
                             [2, 3], [3, 1], [3, 2], [3, 3]]
@@ -47,7 +52,14 @@ class UserDao:
             if r[0] == uid:
                 result = r[3]
 
-        return result
+    def getUserReaction(self, uid):
+        if uid == 1:
+            return self.reaction[1:2]
+        elif uid == 2:
+            return self.reaction[0:1]
+        elif uid == 3:
+            return self.reaction[2:3]
+        return []
 
     # CRUDS
 

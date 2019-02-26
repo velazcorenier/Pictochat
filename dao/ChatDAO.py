@@ -34,11 +34,10 @@ class ChatDAO:
         # hashtag, post_id
         self.topic = [["mindblowing", 2], ["wtf", 3], ["doyouevenlift?", 1]]
 
-        # reaction_id, post_id, reaction_date, reaction_type
-        self.reaction = [[1, 2, "25-3-2019", 1],
-                        [2, 1, "26-3-2019", -1],
-                        [3, 3, "27-3-2019", 1]]
-
+        # reaction_id, post_id, user_id reaction_date, reaction_type
+        self.reaction = [[1, 2, 2, "25-3-2019", 1],
+                         [2, 1, 1, "26-3-2019", -1],
+                         [3, 3, 3, "27-3-2019", 1]]
 
         # paticipant_id chat_id, user_id
         self.participant = [[1, 1, 1], [2, 1, 2], [3, 1, 3], [4, 2, 1],
