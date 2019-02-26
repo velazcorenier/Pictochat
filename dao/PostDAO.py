@@ -30,7 +30,11 @@ class PostDAO:
                       [2, "Tu me dice y le llegamos", 1, "27-3-2019", 2],
                       [3, "BROTHEL tu sae como eh", 2, "26-4-2019", 3]]
 
-
+        # hashtag_id, hash_text
+        self.hashtags = [[0, 'travel'],
+                         [1, 'beautiful'],
+                         [2, 'food'],
+                         [3, 'art']]
 
     def getAllPosts(self):
         posts = self.post
@@ -81,7 +85,14 @@ class PostDAO:
         result = []
         for r in self.reply.__iter__():
             if r[2] == postId:
-                result = r
+                result.append(r)
+
+        return result
+
+    def getHashtagsByPostId(self, postId):
+        result = []
+        for r in self.hashtags.__iter__():
+                result.append(r)
 
         return result
 

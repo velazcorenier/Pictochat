@@ -24,6 +24,22 @@ class PostHandler:
         result['phone'] = row[4]
         return result
 
+        # hashtag_id, hash_text
+    def build_hashtag_dict(self, row):
+        result = {}
+        result['hashtag_id'] = row[0]
+        result['hash_text'] = row[1]
+        return result
+    # reply_id, text, post_id, message_date, user_id
+    def build_reply_dict(self, row):
+        result = {}
+        result['reply_id'] = row[0]
+        result['text'] = row[1]
+        result['post_id'] = row[2]
+        result['reply_date'] = row[3]
+        result['user_id'] = row[4]
+        return result
+
     # GET's
     def getPostById(self, postid):
         post = PostDAO().postById(postid)
@@ -79,13 +95,27 @@ class PostHandler:
         return jsonify(MediaOfPost=media)
 
     def getReplysByPostId(self, postid):
-        message = PostDAO().getReplysByPostId(postid)
+        replys = PostDAO().getReplysByPostId(postid)
 
-        if not message:
+        if not replys:
             return jsonify(Error="Replys NOT FOUND"), 404
 
-        return jsonify(PostReplys=message)
+        result = []
+        for p in replys:
+            result.append(self.build_reply_dict(p))
 
+        return jsonify(PostReplys=result)
+
+
+    def getAllHashtagsByPostsId(self, postid):
+        hashtags = PostDAO().getHashtagsByPostId(postid)
+
+        if not hashtags:
+            return jsonify(Error="Hashtags NOT FOUND"), 404
+        result = []
+        for p in hashtags:
+            result.append(self.build_hashtag_dict(p))
+        return jsonify(HashtagsOnPost=result)
 #     CRUD'S
 
     def insertPost(self):

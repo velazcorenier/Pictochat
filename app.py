@@ -70,7 +70,6 @@ def getUsername(uid):
 def getUserContacts(uid):
     if request.method == 'GET':
         return ContactListHandler().getContactsByUserId(uid)
-
 # CRUDS
 @app.route('/Pictochat/user/<int:owner>/contacts/addUser/<int:uid>', methods=['PUT'])
 def addUsertoContactList(owner, uid):
@@ -116,6 +115,8 @@ def getChatMedia(chat_id):
     if request.method == 'GET':
         return ChatHandler().getChatMedia(chat_id)
 
+# TODO: add Contact/participant to chat group
+
 # CRUDS
 @app.route('/Pictochat/chat/<string:chat_name>/<int:admin_id>', methods=['POST'])
 def createChat(chat_name,admin_id):
@@ -134,7 +135,7 @@ def deleteChat(chat_id):
 
 
 ######################### Post ###################################
-# TODO: Finish message REST
+
 @app.route('/Pictochat/posts', methods=['GET', 'POST'])
 def getAllPost():
     if request.method == 'GET':
@@ -160,12 +161,15 @@ def getPostMessage(pid):
 def getPostMedia(pid):
     if request.method == 'GET':
         return PostHandler().getPostMedia(pid)
-
 @app.route('/Pictochat/post/<int:pid>/replys', methods=['GET'])
 def getReplysByPostId(pid):
     if request.method == 'GET':
         return PostHandler().getReplysByPostId(pid)
 
+@app.route('/Pictochat/post/<int:pid>/hashtags', methods=['GET'])
+def getAllHashtagsByPostId(pid):
+    if request.method == 'GET':
+        return PostHandler().getAllHashtagsByPostsId(pid)
 
 ###### Hashtags ######
 @app.route('/Pictochat/hashtags', methods=['GET', 'POST'])
