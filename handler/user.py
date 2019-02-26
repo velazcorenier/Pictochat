@@ -5,8 +5,24 @@ from dao.UserDAO import UserDao
 class UserHandler:
 
     # Dictionaries
+    # user_id, first_name, last_name, email, phone
     def build_user_dict(self, row):
-        result = row
+        result = {}
+        result['user_id'] = row[0]
+        result['first_name'] = row[1]
+        result['last_name'] = row[2]
+        result['email'] = row[3]
+        result['phone'] = row[4]
+        return result
+
+    def build_post_dict(self, row):
+        result = {}
+        result['post_id'] = row[0]
+        result['chat_id'] = row[1]
+        result['caption'] = row[2]
+        result['media_id'] = row[3]
+        result['user_id'] = row[4]
+        result['post_date'] = row[5]
         return result
 
     def build_credential_dict(self, row):
@@ -92,6 +108,15 @@ class UserHandler:
     #         result = self.build_user_dict(row)
     #         result_list.append(result)
     #     return jsonify(User=result_list)
+
+    def getPostsFromUser(self, uid):
+        posts = UserDao().postsFromUser(uid)
+        if not posts:
+            return jsonify(Error="NOT FOUND POSTS FROM USER"), 404
+        result = []
+        for p in posts:
+            result.append(self.build_post_dict(p))
+        return jsonify(PostsFromUser=result)
 
     # CRUDS
     def insertUser(self):

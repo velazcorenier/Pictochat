@@ -10,8 +10,15 @@ class ContactListHandler:
 
         # Dictionaries
 
+    # user_id, first_name, last_name, email, phone
     def build_user_dict(self, row):
-        result = row
+        result ={}
+        result['user_id'] = row[0]
+        result['first_name'] = row[1]
+        result['last_name'] = row[2]
+        result['email'] = row[3]
+        result['phone'] = row[4]
+        result = result
 
         return result
 
